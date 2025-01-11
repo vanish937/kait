@@ -1,0 +1,444 @@
+wait(10)
+if game.PlaceId == 9224601490 then --dresrosa
+	local FarmCFrameDresrosa = CFrame.new(751.431519, 699.68811, -1114.24243, -0.99989295, 2.33387905e-08, 0.0146315759, 2.37163285e-08, 1, 2.56294967e-08, -0.0146315759, 2.597376e-08, -0.99989295)
+	local Players = game:GetService("Players")
+	local Plr = game.Players.LocalPlayer
+	local main_data = Plr.MAIN_DATA
+	local Slot = main_data.Slot.Value
+	local Fruit = main_data.Slots[Slot].Value
+	local startLvl = main_data.Fruits[Fruit].Level.Value
+	local lastLvl = startLvl
+	local TweenService = game:GetService("TweenService")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+	
+	local Timer = Instance.new("NumberValue")
+	Timer.Name = "Timer"
+	Timer.Parent = ReplicatedStorage
+
+	local TimerInfo = TweenInfo.new(
+		9999999999,
+		Enum.EasingStyle.Linear,
+		Enum.EasingDirection.InOut
+	)
+
+	local TimerTween = TweenService:Create(Timer, TimerInfo, {Value = 9999999999})
+
+	TimerTween:Play()
+	
+	--values
+	
+	_G.safetp = true
+	_G.lvlfarm = true
+	
+	
+	
+	--functions
+	
+	function gotoCake()
+		local TeleportService = game:GetService("TeleportService")
+		TeleportService:Teleport(16190471004, Plr)
+	end
+	function gotoWano()
+		local TeleportService = game:GetService("TeleportService")
+		TeleportService:Teleport(12413901502, Plr)
+	end
+	
+	function autoSafeTp()
+		while _G.safetp == true do
+			local Players = game:GetService("Players")
+			local Plr = game.Players.LocalPlayer
+			local Char = Plr.Character
+			local HumRp = Char.HumanoidRootPart
+			local main_data = Plr.MAIN_DATA
+			HumRp.CFrame = FarmCFrameDresrosa
+			wait(0.01)
+		end
+	end
+	
+	function mainMenuSpawn()
+		local args = {
+			[1] = "Core",
+			[2] = "LoadCharacter",
+			[3] = {}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+		Plr.PlayerGui.UI.HUD.Visible = true
+		Plr.PlayerGui.UI.MainMenu.Visible = false
+	end
+	
+	function autoFarmLvl()
+		while _G.lvlfarm == true do
+			local Players = game:GetService("Players")
+			local Plr = game.Players.LocalPlayer
+			local Char = Plr.Character
+			local HumRp = Char.HumanoidRootPart
+			local main_data = Plr.MAIN_DATA
+			wait(0.1)
+			local cd = false
+			for i,v in Plr.Backpack:GetChildren() do
+				local Slot = main_data.Slot.Value
+				local Fruit = main_data.Slots[Slot].Value
+				local Lvl = main_data.Fruits[Fruit].Level.Value
+				if Lvl>99 and Lvl<200 then
+					gotoCake()
+				elseif Lvl>199 then 
+					gotoWano()
+				end
+				if v:IsA("Tool") and v:GetAttribute("Level")<=Lvl then
+					local args = {
+						[1] = tostring(Fruit),
+						[2] = v.Name:gsub(" ",""),
+						[3] = {}
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					for x,y in Plr.Cooldowns:GetChildren() do
+						if y.Name == v.Name then
+							cd=true
+						else
+							cd=false
+						end
+					end
+				end
+				if cd == false then
+					local args = {
+						[1] = tostring(Fruit),
+						[2] = v.Name:gsub(" ",""),
+						[3] = {
+							["MouseRay"] = {
+								["Normal"] = Vector3.yAxis,
+								["Direction"] = Vector3.new(263.630615234375, -85.52350616455078, 114.82435607910156),
+								["Origin"] = Vector3.new(733.0144653320312, 709.29150390625, -1110.189208984375),
+								["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+								["Distance"] = 44.20985412597656,
+								["Material"] = Enum.Material.Sand,
+								["Position"] = Vector3.new(771.8646850585938, 696.688232421875, -1093.2679443359375)
+							}
+						}
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					for x,y in Plr.Cooldowns:GetChildren() do
+						if y.Name == v.Name then
+							cd=true
+						else
+							cd=false
+						end
+					end
+					if cd == false and v:GetAttribute("Name") then
+						local args = {
+							[1] = tostring(Fruit),
+							[2] = tostring(v:GetAttribute("Name")),
+							[3] = {}
+						}
+						game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					end
+				end
+			end
+		end
+	end
+	
+	--coroutines
+	local safetp = coroutine.create(autoSafeTp)
+	local farm = coroutine.create(autoFarmLvl)
+	
+	-- kaitunu
+	
+	if Plr.Character == nil then
+		mainMenuSpawn()
+		wait(10)
+		coroutine.resume(safetp)
+		coroutine.resume(farm)
+	end
+end
+
+
+if game.PlaceId == 16190471004 then --cake
+	local FarmCFrameCake = CFrame.new(130.623718, -516.615601, -2869.77466, -0.934928536, -3.36826105e-08, -0.354836047, -2.14494573e-08, 1, -3.84090022e-08, 0.354836047, -2.8298631e-08, -0.934928536)
+	local Players = game:GetService("Players")
+	local Plr = game.Players.LocalPlayer
+	local main_data = Plr.MAIN_DATA
+	local Slot = main_data.Slot.Value
+	local Fruit = main_data.Slots[Slot].Value
+	local startLvl = main_data.Fruits[Fruit].Level.Value
+	local lastLvl = startLvl
+	local TweenService = game:GetService("TweenService")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+	local Timer = Instance.new("NumberValue")
+	Timer.Name = "Timer"
+	Timer.Parent = ReplicatedStorage
+
+	local TimerInfo = TweenInfo.new(
+		9999999999,
+		Enum.EasingStyle.Linear,
+		Enum.EasingDirection.InOut
+	)
+
+	local TimerTween = TweenService:Create(Timer, TimerInfo, {Value = 9999999999})
+
+	TimerTween:Play()
+
+	--values
+
+	_G.safetp = true
+	_G.lvlfarm = true
+
+
+
+	--functions
+	function gotoWano()
+		local TeleportService = game:GetService("TeleportService")
+		TeleportService:Teleport(12413901502, Plr)
+	end
+
+	function autoSafeTp()
+		while _G.safetp == true do
+			local Players = game:GetService("Players")
+			local Plr = game.Players.LocalPlayer
+			local Char = Plr.Character
+			local HumRp = Char.HumanoidRootPart
+			local main_data = Plr.MAIN_DATA
+			HumRp.CFrame = FarmCFrameCake
+			wait(0.01)
+		end
+	end
+
+	function mainMenuSpawn()
+		local args = {
+			[1] = "Core",
+			[2] = "LoadCharacter",
+			[3] = {}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+		Plr.PlayerGui.UI.HUD.Visible = true
+		Plr.PlayerGui.UI.MainMenu.Visible = false
+	end
+
+	function autoFarmLvl()
+		while _G.lvlfarm == true do
+			local Players = game:GetService("Players")
+			local Plr = game.Players.LocalPlayer
+			local Char = Plr.Character
+			local HumRp = Char.HumanoidRootPart
+			local main_data = Plr.MAIN_DATA
+			wait(0.1)
+			local cd = false
+			for i,v in Plr.Backpack:GetChildren() do
+				local Slot = main_data.Slot.Value
+				local Fruit = main_data.Slots[Slot].Value
+				local Lvl = main_data.Fruits[Fruit].Level.Value
+				if Lvl>199 then 
+					gotoWano()
+				end
+				if v:IsA("Tool") and v:GetAttribute("Level")<=Lvl then
+					local args = {
+						[1] = tostring(Fruit),
+						[2] = v.Name:gsub(" ",""),
+						[3] = {}
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					for x,y in Plr.Cooldowns:GetChildren() do
+						if y.Name == v.Name then
+							cd=true
+						else
+							cd=false
+						end
+					end
+				end
+				if cd == false then
+					local args = {
+						[1] = tostring(Fruit),
+						[2] = v.Name:gsub(" ",""),
+						[3] = {
+							["MouseRay"] = {
+								["Normal"] = Vector3.yAxis,
+								["Direction"] = Vector3.new(263.630615234375, -85.52350616455078, 114.82435607910156),
+								["Origin"] = Vector3.new(733.0144653320312, 709.29150390625, -1110.189208984375),
+								["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+								["Distance"] = 44.20985412597656,
+								["Material"] = Enum.Material.Sand,
+								["Position"] = Vector3.new(771.8646850585938, 696.688232421875, -1093.2679443359375)
+							}
+						}
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					for x,y in Plr.Cooldowns:GetChildren() do
+						if y.Name == v.Name then
+							cd=true
+						else
+							cd=false
+						end
+					end
+					if cd == false and v:GetAttribute("Name") then
+						local args = {
+							[1] = tostring(Fruit),
+							[2] = tostring(v:GetAttribute("Name")),
+							[3] = {}
+						}
+						game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					end
+				end
+			end
+		end
+	end
+
+	--coroutines
+	local safetp = coroutine.create(autoSafeTp)
+	local farm = coroutine.create(autoFarmLvl)
+
+	-- kaitunu
+
+	if Plr.Character == nil then
+		mainMenuSpawn()
+		wait(10)
+		coroutine.resume(safetp)
+		coroutine.resume(farm)
+	end
+end
+
+if game.PlaceId == 12413901502 then --wano
+	local FarmCFrameWano = CFrame.new(-4824.37793, 1125.52502, 342.967834, 0.0142391939, 6.41749551e-08, -0.999898612, 6.03781913e-08, 1, 6.50412844e-08, 0.999898612, -6.12982021e-08, 0.0142391939)
+	local Players = game:GetService("Players")
+	local Plr = game.Players.LocalPlayer
+	local main_data = Plr.MAIN_DATA
+	local Slot = main_data.Slot.Value
+	local Fruit = main_data.Slots[Slot].Value
+	local startLvl = main_data.Fruits[Fruit].Level.Value
+	local lastLvl = startLvl
+	local TweenService = game:GetService("TweenService")
+	local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+	local Timer = Instance.new("NumberValue")
+	Timer.Name = "Timer"
+	Timer.Parent = ReplicatedStorage
+
+	local TimerInfo = TweenInfo.new(
+		9999999999,
+		Enum.EasingStyle.Linear,
+		Enum.EasingDirection.InOut
+	)
+
+	local TimerTween = TweenService:Create(Timer, TimerInfo, {Value = 9999999999})
+
+	TimerTween:Play()
+
+	--values
+
+	_G.safetp = true
+	_G.lvlfarm = true
+
+
+
+	--functions
+
+	function autoSafeTp()
+		while _G.safetp == true do
+			local Players = game:GetService("Players")
+			local Plr = game.Players.LocalPlayer
+			local Char = Plr.Character
+			local HumRp = Char.HumanoidRootPart
+			local main_data = Plr.MAIN_DATA
+			HumRp.CFrame = FarmCFrameWano
+			wait(0.01)
+		end
+	end
+
+	function mainMenuSpawn()
+		local args = {
+			[1] = "Core",
+			[2] = "LoadCharacter",
+			[3] = {}
+		}
+
+		game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+		Plr.PlayerGui.UI.HUD.Visible = true
+		Plr.PlayerGui.UI.MainMenu.Visible = false
+	end
+	function antiafk()
+		game:GetService("Players").LocalPlayer.Idled:connect(function()
+			game:GetService("VirtualUser"):ClickButton2(Vector2.new())
+		end)
+	end
+
+	function autoFarmLvl()
+		while _G.lvlfarm == true do
+			local Players = game:GetService("Players")
+			local Plr = game.Players.LocalPlayer
+			local Char = Plr.Character
+			local HumRp = Char.HumanoidRootPart
+			local main_data = Plr.MAIN_DATA
+			wait(0.1)
+			local cd = false
+			for i,v in Plr.Backpack:GetChildren() do
+				local Slot = main_data.Slot.Value
+				local Fruit = main_data.Slots[Slot].Value
+				local Lvl = main_data.Fruits[Fruit].Level.Value
+				if v:IsA("Tool") and v:GetAttribute("Level")<=Lvl then
+					local args = {
+						[1] = tostring(Fruit),
+						[2] = v.Name:gsub(" ",""),
+						[3] = {}
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					for x,y in Plr.Cooldowns:GetChildren() do
+						if y.Name == v.Name then
+							cd=true
+						else
+							cd=false
+						end
+					end
+				end
+				if cd == false then
+					local args = {
+						[1] = tostring(Fruit),
+						[2] = v.Name:gsub(" ",""),
+						[3] = {
+							["MouseRay"] = {
+								["Normal"] = Vector3.yAxis,
+								["Direction"] = Vector3.new(263.630615234375, -85.52350616455078, 114.82435607910156),
+								["Origin"] = Vector3.new(733.0144653320312, 709.29150390625, -1110.189208984375),
+								["Instance"] = workspace:WaitForChild("Map"):WaitForChild("Part"),
+								["Distance"] = 44.20985412597656,
+								["Material"] = Enum.Material.Sand,
+								["Position"] = Vector3.new(771.8646850585938, 696.688232421875, -1093.2679443359375)
+							}
+						}
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					for x,y in Plr.Cooldowns:GetChildren() do
+						if y.Name == v.Name then
+							cd=true
+						else
+							cd=false
+						end
+					end
+					if cd == false and v:GetAttribute("Name") then
+						local args = {
+							[1] = tostring(Fruit),
+							[2] = tostring(v:GetAttribute("Name")),
+							[3] = {}
+						}
+						game:GetService("ReplicatedStorage"):WaitForChild("ReplicatorNoYield"):FireServer(unpack(args))
+					end
+				end
+			end
+		end
+	end
+
+	--coroutines
+	local safetp = coroutine.create(autoSafeTp)
+	local farm = coroutine.create(autoFarmLvl)
+	local antiafk = coroutine.create(antiafk)
+
+	-- kaitunu
+
+	if Plr.Character == nil then
+		mainMenuSpawn()
+		wait(10)
+		coroutine.resume(safetp)
+		coroutine.resume(farm)
+		coroutine.resume(antiafk)
+	end
+	
+end
